@@ -26,16 +26,16 @@ Agents must evaluate file write actions against the user's permission file, cate
 
 ### 2. Permission Access Matrices
 Refer to the individual markdown policies to determine the active developer's permission levels:
-- **Backend Lead**: [Alice Chen](file:///d:/Desktop/Demo/my-project/permissions/alice.md) (Free-Write in `backend/` and `database/`; Read-Only in `frontend/`).
-- **Frontend Lead**: [Bob Smith](file:///d:/Desktop/Demo/my-project/permissions/bob.md) (Free-Write in `frontend/`; Read-Only in `backend/` and `database/`).
-- **QA Lead**: [Charlie Davis](file:///d:/Desktop/Demo/my-project/permissions/charlie.md) (Free-Write in `tests/`; Read-Only in others).
+- **Backend Lead**: [Alice Chen](file:///d:/Desktop/Demo/permissions/alice.md) (Free-Write in `backend/` and `database/`; Read-Only in `frontend/`).
+- **Frontend Lead**: [Bob Smith](file:///d:/Desktop/Demo/permissions/bob.md) (Free-Write in `frontend/`; Read-Only in `backend/` and `database/`).
+- **QA Lead**: [Charlie Davis](file:///d:/Desktop/Demo/permissions/charlie.md) (Free-Write in `tests/`; Read-Only in others).
 
 ### 3. Role-Specific Detailed API Rules
-- **Backend API Rules**: [Alice's API Rules](file:///d:/Desktop/Demo/my-project/docs/api/alice.md) (database safety, query formats, parameter checks).
-- **Frontend API Rules**: [Bob's API Rules](file:///d:/Desktop/Demo/my-project/docs/api/bob.md) (network configurations, DOM insertion, XSS prevention).
-- **QA & Testing Rules**: [Charlie's API Rules](file:///d:/Desktop/Demo/my-project/docs/api/charlie.md) (test isolation, DB teardowns, schema validation assertions).
+- **Backend API Rules**: [Alice's API Rules](file:///d:/Desktop/Demo/docs/api/alice.md) (database safety, query formats, parameter checks).
+- **Frontend API Rules**: [Bob's API Rules](file:///d:/Desktop/Demo/docs/api/bob.md) (network configurations, DOM insertion, XSS prevention).
+- **QA & Testing Rules**: [Charlie's API Rules](file:///d:/Desktop/Demo/docs/api/charlie.md) (test isolation, DB teardowns, schema validation assertions).
 
-For global API contracts, refer to the high-level summary [api_design.md](file:///d:/Desktop/Demo/my-project/docs/api_design.md), which should not be modified frequently.
+For global API contracts, refer to the high-level summary [api_design.md](file:///d:/Desktop/Demo/docs/api_design.md), which should not be modified frequently.
 
 ## Restructured Development Flow
 

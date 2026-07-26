@@ -12,7 +12,7 @@
 | `frontend/`      | **Free-Write**   | Owner of presentation assets, layouts, and logic. |
 | `tests/`         | **Read-Only**    | Read-only access for test coordination. |
 | `config/`        | **Read-Only**    | Configuration templates. |
-| `docs/`          | **Free-Write**   | Owner of user interface docs. |
+| `docs/`          | **Write with Consent** | Shared project documentation. |
 | `.env`           | **No Access**    | Contains private API keys and tokens. |
 | Shared Root files (README, agents.md, .gitignore) | **Write with Consent** | Requires coordination with the team. |
 | **All other files (Unlisted)** | **Read-Only** | Default fallback policy. |
