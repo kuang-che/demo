@@ -13,6 +13,7 @@
 | `tests/`         | **Free-Write**   | Allowed to write API tests. |
 | `config/`        | **Write with Consent** | Configuration templates. |
 | `docs/`          | **Write with Consent** | Shared project documentation. |
+| `docs/api/alice.md` | **Free-Write**   | Personal backend API implementation rules. |
 | `.env`           | **No Access**    | Contains private API keys and tokens. |
 | Shared Root files (README, agents.md, .gitignore) | **Write with Consent** | Requires coordination with the team. |
 | **All other files (Unlisted)** | **Read-Only** | Default fallback policy. |
