@@ -1,9 +1,18 @@
 // API configuration
 const API_BASE_URL = 'http://127.0.0.1:5000/api';
+const LOCAL_STORAGE_KEY = 'syncboard_demo_tasks';
+
+// Initial Seed Tasks for standalone mode
+const DEFAULT_TASKS = [
+    { id: 1, title: 'Setup Demo Architecture', description: 'Configure project folders, write documentations, and design schema.', status: 'Done', priority: 'High', created_at: new Date().toISOString() },
+    { id: 2, title: 'Build Frontend Interface', description: 'Develop the glassmorphic dark-theme UI with CSS and JavaScript.', status: 'In Progress', priority: 'Medium', created_at: new Date().toISOString() },
+    { id: 3, title: 'Implement REST API Server', description: 'Write Flask code to fetch, update, and persist tasks in SQLite.', status: 'To Do', priority: 'High', created_at: new Date().toISOString() }
+];
 
 // Global state
 let state = {
-    tasks: []
+    tasks: [],
+    isBackendConnected: false
 };
 
 // DOM Elements
@@ -24,6 +33,7 @@ const elements = {
     btnOpenModal: document.getElementById('btn-open-modal'),
     btnCloseModal: document.getElementById('btn-close-modal'),
     btnCancelModal: document.getElementById('btn-cancel-modal'),
+    connectionBadge: document.getElementById('connection-status-badge'),
     inputTitle: document.getElementById('task-title'),
     inputDesc: document.getElementById('task-desc'),
     selectStatus: document.getElementById('task-status'),
@@ -74,70 +84,125 @@ function setupEventListeners() {
     });
 }
 
-// Fetch Tasks from API
+// Update UI Connection Status Badge
+function updateConnectionBadge(online) {
+    state.isBackendConnected = online;
+    if (online) {
+        elements.connectionBadge.className = 'connection-badge status-online';
+        elements.connectionBadge.innerHTML = '🟢 API Server Connected';
+    } else {
+        elements.connectionBadge.className = 'connection-badge status-offline';
+        elements.connectionBadge.innerHTML = '⚡ Standalone Mode';
+    }
+}
+
+// Fetch Tasks from API (or fallback to LocalStorage)
 async function fetchTasks() {
     try {
-        const response = await fetch(`${API_BASE_URL}/tasks`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        
+        const response = await fetch(`${API_BASE_URL}/tasks`, { signal: controller.signal });
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         state.tasks = await response.json();
-        renderTasks();
+        updateConnectionBadge(true);
     } catch (error) {
-        console.error('Error fetching tasks:', error);
-        alert('Could not connect to backend server. Make sure server.py is running on http://127.0.0.1:5000');
+        console.info('Flask backend server not active, using LocalStorage fallback mode.');
+        updateConnectionBadge(false);
+        loadLocalTasks();
     }
+    renderTasks();
+}
+
+// LocalStorage Handlers
+function loadLocalTasks() {
+    const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (cached) {
+        try {
+            state.tasks = JSON.parse(cached);
+        } catch (e) {
+            state.tasks = DEFAULT_TASKS;
+        }
+    } else {
+        state.tasks = DEFAULT_TASKS;
+        saveLocalTasks();
+    }
+}
+
+function saveLocalTasks() {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state.tasks));
 }
 
 // Create Task
 async function createTask(task, onSuccess) {
-    try {
-        const response = await fetch(`${API_BASE_URL}/tasks`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(task)
-        });
+    if (state.isBackendConnected) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/tasks`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(task)
+            });
 
-        if (!response.ok) {
-            const errData = await response.json();
-            throw new Error(errData.error || 'Failed to create task');
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.error || 'Failed to create task');
+            }
+
+            const createdTask = await response.json();
+            state.tasks.unshift(createdTask);
+            renderTasks();
+            if (onSuccess) onSuccess();
+        } catch (error) {
+            console.error('Error creating task on server:', error);
+            alert(`Error: ${error.message}`);
         }
-
-        const createdTask = await response.json();
-        state.tasks.unshift(createdTask); // Add to local state (at the start)
+    } else {
+        // LocalStorage Mode
+        const createdTask = {
+            id: Date.now(),
+            title: task.title,
+            description: task.description,
+            status: task.status,
+            priority: task.priority,
+            created_at: new Date().toISOString()
+        };
+        state.tasks.unshift(createdTask);
+        saveLocalTasks();
         renderTasks();
         if (onSuccess) onSuccess();
-    } catch (error) {
-        console.error('Error creating task:', error);
-        alert(`Error: ${error.message}`);
     }
 }
 
 // Update Task Status
 async function updateTaskStatus(taskId, newStatus) {
-    try {
-        const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ status: newStatus })
-        });
+    if (state.isBackendConnected) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
 
-        if (!response.ok) {
-            throw new Error('Failed to update task status');
+            if (!response.ok) {
+                throw new Error('Failed to update task status');
+            }
+
+            const updatedTask = await response.json();
+            state.tasks = state.tasks.map(t => t.id === taskId ? updatedTask : t);
+            renderTasks();
+        } catch (error) {
+            console.error('Error updating task status:', error);
+            alert('Failed to update status on server.');
         }
-
-        const updatedTask = await response.json();
-        
-        // Update local state
-        state.tasks = state.tasks.map(t => t.id === taskId ? updatedTask : t);
+    } else {
+        // LocalStorage Mode
+        state.tasks = state.tasks.map(t => t.id === taskId ? { ...t, status: newStatus } : t);
+        saveLocalTasks();
         renderTasks();
-    } catch (error) {
-        console.error('Error updating task status:', error);
-        alert('Failed to update status on server.');
     }
 }
 
@@ -145,21 +210,27 @@ async function updateTaskStatus(taskId, newStatus) {
 async function deleteTask(taskId) {
     if (!confirm('Are you sure you want to delete this task?')) return;
 
-    try {
-        const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
-            method: 'DELETE'
-        });
+    if (state.isBackendConnected) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
+                method: 'DELETE'
+            });
 
-        if (!response.ok) {
-            throw new Error('Failed to delete task');
+            if (!response.ok) {
+                throw new Error('Failed to delete task');
+            }
+
+            state.tasks = state.tasks.filter(t => t.id !== taskId);
+            renderTasks();
+        } catch (error) {
+            console.error('Error deleting task:', error);
+            alert('Failed to delete task.');
         }
-
-        // Update local state
+    } else {
+        // LocalStorage Mode
         state.tasks = state.tasks.filter(t => t.id !== taskId);
+        saveLocalTasks();
         renderTasks();
-    } catch (error) {
-        console.error('Error deleting task:', error);
-        alert('Failed to delete task.');
     }
 }
 
@@ -216,7 +287,7 @@ function createTaskCard(task) {
     card.className = `task-card`;
     card.dataset.id = task.id;
 
-    // Build the select dropdown options for status changing
+    // Build status dropdown options
     const statusOptions = ['To Do', 'In Progress', 'Done'].map(s => {
         return `<option value="${s}" ${task.status === s ? 'selected' : ''}>${s}</option>`;
     }).join('');
@@ -230,7 +301,7 @@ function createTaskCard(task) {
         </div>
         <p class="task-desc">${escapeHTML(task.description || 'No description provided.')}</p>
         <div class="task-meta">
-            <span class="badge-priority prio-${task.priority.toLowerCase()}">${task.priority}</span>
+            <span class="badge-priority prio-${(task.priority || 'Medium').toLowerCase()}">${escapeHTML(task.priority || 'Medium')}</span>
             <div class="task-actions">
                 <select class="status-changer">
                     ${statusOptions}
@@ -256,7 +327,8 @@ function createTaskCard(task) {
 
 // Helper to escape HTML and prevent XSS
 function escapeHTML(str) {
-    return str
+    if (!str) return '';
+    return String(str)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')

@@ -46,5 +46,5 @@ env/
 .DS_Store
 
 # Testing
-tests/test_tasks.db*
+tests/
 
