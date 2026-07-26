@@ -12,7 +12,7 @@ A modern, full-stack, single-page application demonstrating a collaborative task
 ## Project Structure
 
 ```text
-my-project/
+Demo/
 │
 ├── .gitignore
 ├── agents.md
@@ -22,16 +22,19 @@ my-project/
 │   ├── directory.md
 │   ├── problem_statement.md
 │   ├── architecture.md
-│   └── api_design.md
+│   ├── api_design.md
+│   └── api/
 │
 ├── frontend/
 │   ├── index.html
-│   ├── style.css
-│   └── app.js
+│   ├── styles/style.css
+│   └── scripts/app.js
 │
 ├── backend/
 │   ├── server.py
-│   └── requirements.txt
+│   ├── requirements.txt
+│   ├── db/
+│   └── api/
 │
 ├── database/
 │   └── schema.sql
@@ -39,6 +42,7 @@ my-project/
 ├── config/
 │   └── .env.example
 │
+├── permissions/
 └── tests/
     └── test_api.py
 ```
