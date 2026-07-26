@@ -7,7 +7,7 @@ const LOCAL_STORAGE_KEY = 'syncboard_demo_tasks';
 // Initial Seed Tasks for standalone mode
 const DEFAULT_TASKS = [
     { id: 1, title: 'Setup Demo Architecture', description: 'Configure project folders, write documentations, and design schema.', status: 'Done', priority: 'High', created_at: new Date().toISOString() },
-    { id: 2, title: 'Build Frontend Interface', description: 'Develop the glassmorphic dark-theme UI with CSS and JavaScript.', status: 'In Progress', priority: 'Medium', created_at: new Date().toISOString() },
+    { id: 2, title: 'Build Frontend Interface', description: 'Develop the glassmorphic light-theme UI with CSS and JavaScript.', status: 'In Progress', priority: 'Medium', created_at: new Date().toISOString() },
     { id: 3, title: 'Implement REST API Server', description: 'Write Flask code to fetch, update, and persist tasks in SQLite.', status: 'To Do', priority: 'High', created_at: new Date().toISOString() }
 ];
 

@@ -1,35 +1,35 @@
 /* --- Design System and Tokens --- */
 :root {
-    /* Color Palette */
-    --bg-dark: #090d16;
-    --bg-surface: rgba(17, 24, 39, 0.6);
-    --bg-card: rgba(30, 41, 59, 0.45);
-    --border-color: rgba(255, 255, 255, 0.07);
-    --border-focus: rgba(99, 102, 241, 0.4);
+    /* Color Palette - Light Mode */
+    --bg-dark: #f8fafc;
+    --bg-surface: rgba(255, 255, 255, 0.85);
+    --bg-card: #ffffff;
+    --border-color: rgba(226, 232, 240, 0.9);
+    --border-focus: rgba(99, 102, 241, 0.25);
     
     /* Text Colors */
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
     
     /* Semantic Accents */
-    --color-todo: #818cf8;      /* Indigo */
-    --color-todo-bg: rgba(129, 140, 248, 0.1);
-    --color-progress: #38bdf8;  /* Sky Blue */
-    --color-progress-bg: rgba(56, 189, 248, 0.1);
-    --color-done: #34d399;      /* Emerald */
-    --color-done-bg: rgba(52, 211, 153, 0.1);
+    --color-todo: #4f46e5;      /* Indigo */
+    --color-todo-bg: rgba(79, 70, 229, 0.08);
+    --color-progress: #0284c7;  /* Sky Blue */
+    --color-progress-bg: rgba(2, 132, 199, 0.08);
+    --color-done: #10b981;      /* Emerald */
+    --color-done-bg: rgba(16, 185, 129, 0.08);
     
     /* Priority Colors */
     --prio-low: #64748b;
-    --prio-low-bg: rgba(100, 116, 139, 0.15);
-    --prio-med: #f59e0b;
-    --prio-med-bg: rgba(245, 158, 11, 0.15);
-    --prio-high: #f43f5e;
-    --prio-high-bg: rgba(244, 63, 94, 0.15);
+    --prio-low-bg: rgba(100, 116, 139, 0.1);
+    --prio-med: #d97706;
+    --prio-med-bg: rgba(217, 119, 6, 0.1);
+    --prio-high: #e11d48;
+    --prio-high-bg: rgba(225, 29, 72, 0.1);
     
     /* Interactivity and Shadows */
-    --glow-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --glow-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --radius-sm: 8px;
     --radius-md: 12px;
@@ -47,8 +47,8 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-dark);
     background-image: 
-        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.12) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.08) 0px, transparent 50%);
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
@@ -96,15 +96,15 @@ body {
 }
 
 .connection-badge.status-online {
-    background: rgba(52, 211, 153, 0.12);
-    color: #34d399;
-    border: 1px solid rgba(52, 211, 153, 0.3);
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .connection-badge.status-offline {
-    background: rgba(245, 158, 11, 0.12);
-    color: #fbbf24;
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background: rgba(217, 119, 6, 0.1);
+    color: #d97706;
+    border: 1px solid rgba(217, 119, 6, 0.25);
 }
 
 .logo-icon {
@@ -115,7 +115,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
 }
 
 .logo-icon i {
@@ -128,7 +128,7 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
-    background: linear-gradient(to right, #ffffff, #cbd5e1);
+    background: linear-gradient(to right, #0f172a, #334155);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -154,24 +154,24 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
     color: #fff;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.05);
+    background: #ffffff;
     color: var(--text-primary);
     border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: #f1f5f9;
 }
 
 /* --- Stats Banner --- */
@@ -251,14 +251,14 @@ body {
 .progress-container {
     width: 100%;
     height: 8px;
-    background: rgba(255, 255, 255, 0.05);
+    background: #e2e8f0;
     border-radius: 4px;
     overflow: hidden;
 }
 
 .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, #6366f1, #34d399);
+    background: linear-gradient(90deg, #4f46e5, #10b981);
     border-radius: 4px;
     transition: var(--transition-smooth);
 }
@@ -298,7 +298,7 @@ body {
     align-items: center;
     margin-bottom: 1.25rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .column-title-wrapper {
@@ -325,7 +325,7 @@ body {
 }
 
 .column-badge {
-    background: rgba(255, 255, 255, 0.06);
+    background: #f1f5f9;
     padding: 0.15rem 0.5rem;
     border-radius: 12px;
     font-size: 0.75rem;
@@ -350,12 +350,13 @@ body {
     flex-direction: column;
     gap: 0.75rem;
     transition: var(--transition-smooth);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .task-card:hover {
     transform: translateY(-3px) scale(1.01);
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .task-header {
@@ -422,7 +423,7 @@ body {
 
 .btn-icon:hover {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.05);
+    background: #f1f5f9;
 }
 
 .btn-icon.btn-delete:hover {
@@ -431,7 +432,7 @@ body {
 }
 
 .status-changer {
-    background: rgba(255, 255, 255, 0.04);
+    background: #ffffff;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     color: var(--text-secondary);
@@ -445,7 +446,7 @@ body {
 
 .status-changer:hover {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.08);
+    background: #f1f5f9;
 }
 
 /* --- Modal Overlay & Card --- */
@@ -455,7 +456,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(9, 13, 22, 0.75);
+    background: rgba(15, 23, 42, 0.4);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -472,13 +473,13 @@ body {
 }
 
 .modal-card {
-    background: #0f172a;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #ffffff;
+    border: 1px solid var(--border-color);
     width: 90%;
     max-width: 480px;
     border-radius: var(--radius-lg);
     padding: 1.5rem;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
     transform: translateY(20px);
     transition: transform 0.3s ease;
 }
@@ -497,6 +498,7 @@ body {
 .modal-header h3 {
     font-size: 1.25rem;
     font-weight: 600;
+    color: var(--text-primary);
 }
 
 .btn-close {
@@ -511,8 +513,8 @@ body {
 }
 
 .btn-close:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    background: #f1f5f9;
 }
 
 /* --- Forms --- */
@@ -543,7 +545,7 @@ label {
 input[type="text"],
 textarea,
 select {
-    background: rgba(255, 255, 255, 0.03);
+    background: #f8fafc;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     color: var(--text-primary);
@@ -560,7 +562,7 @@ textarea:focus,
 select:focus {
     border-color: var(--color-todo);
     box-shadow: 0 0 0 3px var(--border-focus);
-    background: rgba(255, 255, 255, 0.05);
+    background: #ffffff;
 }
 
 textarea {
